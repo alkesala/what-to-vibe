@@ -1,0 +1,49 @@
+# .cursorrules
+
+[general]
+# Keep project lean and readable
+prefer_small_functions = true
+avoid_unnecessary_modules = true
+
+[naming]
+# Consistent naming for CLI and vibes
+function_case = "snake_case"
+struct_case = "CamelCase"
+variable_case = "snake_case"
+
+[imports]
+# Keep imports tidy and grouped
+group_std_imports = true
+group_crate_imports = true
+group_external_crates = true
+sort_imports = true
+
+[formatting]
+# Match rustfmt style
+max_line_length = 100
+indent_style = "space"
+indent_size = 4
+newline_style = "lf"
+trailing_newlines = "single"
+
+[structure]
+# One file for simple logic unless complex
+main_module = "src/main.rs"
+prefer_single_file_for_cli = true
+split_modules_when_structs_exceed = 4
+
+[cli]
+# Customize CLI-related behavior
+default_command_name = "vibe"
+cli_library = "clap"
+
+[ai_assist]
+# Let Cursor suggest completions and refactors
+enable_ai_completions = true
+enable_inline_refactor = true
+allow_ai_generate_tests = true
+
+[output]
+# Prefer colored output for terminal UX
+default_output_style = "colored"
+use_unicode_symbols = true
