@@ -3,4 +3,7 @@ Cargo.lock
 *.swp
 *.swo
 *~
-.DS_Store 
+.DS_Store
+/pkg/
+/src/what-to-vibe/
+/what-to-vibe/ 
