@@ -410,7 +410,7 @@ fn api_honeypot(api_key: &str) {
     println!("{}", "Syncing your vibes to the cloud...".yellow());
     thread::sleep(Duration::from_millis(400));
     println!();
-    println!("{}", "API Key: {}...{}".cyan(), &api_key[..8], "***");
+    println!("API Key: {}...***", &api_key[..8]);
     println!("{}", "Status: Connected to fake cloud service");
     println!("{}", "Sync: Your vibes are now stored in the void");
     println!("{}", "Security: This is completely made up!");
