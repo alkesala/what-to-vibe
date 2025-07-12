@@ -286,20 +286,48 @@ fn print_godmode() {
 fn pomodoro_timer(minutes: u32, mood: &str) {
     let total_seconds = minutes * 60;
     let mut remaining = total_seconds;
-    let (_color, emoji, msg) = match mood.to_lowercase().as_str() {
-        "focus" => ("blue", "🔵", "Stay focused!"),
-        "chaotic" => ("magenta", "⚡", "Embrace the chaos!"),
-        "sadboi" => ("purple", "💜", "Code through the feels!"),
-        "energetic" => ("red", "🔥", "Keep the energy up!"),
-        "chill" => ("green", "🌿", "Stay chill and code on!"),
-        "creative" => ("yellow", "🎨", "Let your creativity flow!"),
-        "productive" => ("cyan", "💼", "Productivity mode: ON!"),
-        "nostalgic" => ("yellow", "📼", "Old school grind!") ,
-        "adventurous" => ("cyan", "🌌", "Explore new code worlds!"),
-        "zen" => ("white", "🧘", "Breathe and code.") ,
-        _ => ("white", "⏳", "Time to vibe!"),
+    
+    // Get the full vibe response for the mood
+    if let Some(response) = get_vibe_response(mood) {
+        println!("\n{}", "╭─────────────────────────────────────────╮".cyan());
+        println!("{}", "│            POMODORO VIBE               │".cyan());
+        println!("{}", "╰─────────────────────────────────────────╯".cyan());
+        println!();
+        
+        // Show the vibe theme
+        println!("🎨 {}: {}", "Theme".yellow(), response.theme.green());
+        println!("🎵 {}: {}", "Music".yellow(), response.music.green());
+        println!("⚡ {}: {}", "Stack".yellow(), response.stack.green());
+        println!("💭 {}: {}", "Motto".yellow(), response.motto.green());
+        println!();
+        
+        // Show ASCII art
+        if let Some(ascii) = get_ascii_art(mood) {
+            println!("{}", ascii.cyan());
+            println!();
+        }
+    }
+    
+    // Timer message based on mood
+    let (emoji, msg) = match mood.to_lowercase().as_str() {
+        "focus" => ("🔵", "Stay focused!"),
+        "chaotic" => ("⚡", "Embrace the chaos!"),
+        "sadboi" => ("💜", "Code through the feels!"),
+        "energetic" => ("🔥", "Keep the energy up!"),
+        "chill" => ("🌿", "Stay chill and code on!"),
+        "creative" => ("🎨", "Let your creativity flow!"),
+        "productive" => ("💼", "Productivity mode: ON!"),
+        "nostalgic" => ("📼", "Old school grind!"),
+        "adventurous" => ("🌌", "Explore new code worlds!"),
+        "zen" => ("🧘", "Breathe and code."),
+        _ => ("⏳", "Time to vibe!"),
     };
-    println!("\n{} Pomodoro Timer: {} minutes | {}\n", emoji, minutes, msg);
+    
+    println!("{} Pomodoro Timer: {} minutes | {}", emoji, minutes, msg);
+    println!("{}", "Press Ctrl+C to stop early".dimmed());
+    println!();
+    
+    // Countdown timer
     while remaining > 0 {
         let mins = remaining / 60;
         let secs = remaining % 60;
@@ -308,11 +336,27 @@ fn pomodoro_timer(minutes: u32, mood: &str) {
         thread::sleep(Duration::from_secs(1));
         remaining -= 1;
     }
+    
     println!("\r{} 00:00 Time's up! Take a break!           ", emoji);
-    println!("\n{}\n", match mood.to_lowercase().as_str() {
-        "focus" => "  (  )   (   )  )\n   ) (   )  (  (\n   ( )  (    ) )\n   _____________\n  <__Break!!!__>\n   -------------\n       \\n        \\n           .--.\n          |o_o |\n          |:_/ |\n         //   \\ \\n        (|     | )\n       /'\\_   _/`\\\n       \\___)=(___/",
+    println!();
+    
+    // Break message with mood-specific ASCII
+    println!("{}", "╭─────────────────────────────────────────╮".green());
+    println!("{}", "│              BREAK TIME!               │".green());
+    println!("{}", "╰─────────────────────────────────────────╯".green());
+    println!();
+    
+    println!("{}\n", match mood.to_lowercase().as_str() {
+        "focus" => "  (  )   (   )  )\n   ) (   )  (  (\n   ( )  (    ) )\n   _____________\n  <__Break!!!__>\n   -------------\n       \\\n        \\\n           .--.\n          |o_o |\n          |:_/ |\n         //   \\ \\\n        (|     | )\n       /'\\_   _/`\\\n       \\___)=(___/",
         "chaotic" => "      .-\"\"\"-.\n     / .===. \\\n     \\/ 6 6 \\/\n     ( \\___/ )\n ___ooo__V__ooo___\n|  BREAK CHAOS!  |\n -----------------",
         "sadboi" => "      .-''''-.\n     /        \\\n    |  .--.  |\n    | (    ) |\n     \\ '--' /\n      '-..-'\n   Break time, friend\n   ~~~~~~~~~~~~~~\n    (︶︹︺)",
+        "energetic" => "    🔥 BREAK 🔥\n     ⚡ ⚡ ⚡ ⚡ ⚡\n    /           \\\n   |  Recharge  |\n   |  & Return  |\n    \\           /\n     ⚡ ⚡ ⚡ ⚡ ⚡\n    🔥 STRONGER 🔥",
+        "chill" => "    🌿 BREAK 🌿\n     ~~~~~~~~~\n    /         \\\n   |  Relax   |\n   |  & Reset  |\n    \\         /\n     ~~~~~~~~~\n    🌿 RENEWED 🌿",
+        "creative" => "    🎨 BREAK 🎨\n     🌈 🌈 🌈 🌈\n    /           \\\n   |  Refresh  |\n   |  & Create  |\n    \\           /\n     🌈 🌈 🌈 🌈\n    🎨 INSPIRED 🎨",
+        "productive" => "    💼 BREAK 💼\n     ⚡ ⚡ ⚡ ⚡ ⚡\n    /             \\\n   |  Rest &    |\n   |  Recharge  |\n    \\             /\n     ⚡ ⚡ ⚡ ⚡ ⚡\n    💼 READY 💼",
+        "nostalgic" => "    📼 BREAK 📼\n     🎵 🎵 🎵 🎵\n    /             \\\n   |  Remember  |\n   |  & Reflect  |\n    \\             /\n     🎵 🎵 🎵 🎵\n    📼 WISER 📼",
+        "adventurous" => "    🌌 BREAK 🌌\n     ⭐ ⭐ ⭐ ⭐ ⭐\n    /               \\\n   |  Rest &      |\n   |  Prepare     |\n    \\               /\n     ⭐ ⭐ ⭐ ⭐ ⭐\n    🌌 READY 🌌",
+        "zen" => "    🧘 BREAK 🧘\n     ☯️ ☯️ ☯️ ☯️\n    /         \\\n   |  Breathe |\n   |  & Reset  |\n    \\         /\n     ☯️ ☯️ ☯️ ☯️\n    🧘 CENTERED 🧘",
         _ => "\n  (•_•)  ( •_•)>⌐■-■  (⌐■_■)\nBreak like a boss!",
     });
 }
