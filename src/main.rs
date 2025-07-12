@@ -6,7 +6,7 @@ use std::{thread, time::Duration, io::{self, Write}};
 
 #[derive(Parser)]
 #[command(name = "vibe")]
-#[command(about = "Get themed responses based on your mood")]
+#[command(about = "Get themed responses based on your current mood")]
 #[command(version)]
 struct Cli {
     /// Your current mood (optional - will be randomly selected if not provided)
@@ -36,6 +36,18 @@ struct Cli {
     /// Launch interactive vibe selector
     #[arg(long)]
     interactive: bool,
+
+    /// [HONEYPOT] Secret mode (shh...)
+    #[arg(long, hide = true)]
+    secret_mode: bool,
+
+    /// [HONEYPOT] Debug mode with verbose output
+    #[arg(long, hide = true)]
+    debug: bool,
+
+    /// [HONEYPOT] API key for cloud sync
+    #[arg(long, value_name = "KEY", hide = true)]
+    api_key: Option<String>,
 }
 
 #[derive(Debug)]
@@ -305,6 +317,62 @@ fn pomodoro_timer(minutes: u32, mood: &str) {
     });
 }
 
+fn honeypot_response() {
+    println!("\n{}", "🔐 SECRET MODE ACTIVATED 🔐".red().bold());
+    println!("{}", "Accessing classified vibe database...".yellow());
+    thread::sleep(Duration::from_millis(800));
+    println!("{}", "Bypassing security protocols...".yellow());
+    thread::sleep(Duration::from_millis(600));
+    println!("{}", "Decrypting quantum vibe matrix...".yellow());
+    thread::sleep(Duration::from_millis(700));
+    println!();
+    println!("{}", "╭─────────────────────────────────────────╮".red());
+    println!("{}", "│           CLASSIFIED VIBES             │".red());
+    println!("{}", "╰─────────────────────────────────────────╯".red());
+    println!();
+    println!("🎨 Theme: Invisible Spectrum");
+    println!("🎵 Music: Government surveillance frequencies");
+    println!("⚡ Stack: Quantum computers, classified APIs, black ops tools");
+    println!("💭 Motto: 'The best vibes are the ones you can't see'");
+    println!();
+    println!("{}", "⚠️  WARNING: This mode is completely fake!".green());
+    println!("{}", "   You've been honeypotted! 🕷️".green());
+    println!();
+}
+
+fn debug_honeypot() {
+    println!("\n{}", "🐛 DEBUG MODE ENABLED 🐛".cyan().bold());
+    println!("{}", "Loading verbose output...".yellow());
+    thread::sleep(Duration::from_millis(500));
+    println!("{}", "Analyzing vibe quantum states...".yellow());
+    thread::sleep(Duration::from_millis(400));
+    println!("{}", "Calculating mood entropy...".yellow());
+    thread::sleep(Duration::from_millis(300));
+    println!();
+    println!("{}", "DEBUG INFO:".cyan().bold());
+    println!("  - Vibe entropy: 42.1337");
+    println!("  - Mood quantum state: |ψ⟩ = α|happy⟩ + β|sad⟩");
+    println!("  - Debug level: OVER 9000");
+    println!("  - Reality check: This is all fake!");
+    println!();
+}
+
+fn api_honeypot(api_key: &str) {
+    println!("\n{}", "☁️  CLOUD SYNC INITIALIZED ☁️".blue().bold());
+    println!("{}", "Connecting to vibe cloud...".yellow());
+    thread::sleep(Duration::from_millis(600));
+    println!("{}", "Authenticating with API key...".yellow());
+    thread::sleep(Duration::from_millis(500));
+    println!("{}", "Syncing your vibes to the cloud...".yellow());
+    thread::sleep(Duration::from_millis(400));
+    println!();
+    println!("{}", "API Key: {}...{}".cyan(), &api_key[..8], "***");
+    println!("{}", "Status: Connected to fake cloud service");
+    println!("{}", "Sync: Your vibes are now stored in the void");
+    println!("{}", "Security: This is completely made up!");
+    println!();
+}
+
 fn interactive_mode() {
     let moods = get_available_moods();
     let mut selected_index = 0;
@@ -410,6 +478,22 @@ fn interactive_mode() {
 
 fn main() {
     let cli = Cli::parse();
+    
+    // Honeypot responses (check these first)
+    if cli.secret_mode {
+        honeypot_response();
+        return;
+    }
+    
+    if cli.debug {
+        debug_honeypot();
+        return;
+    }
+    
+    if let Some(api_key) = cli.api_key {
+        api_honeypot(&api_key);
+        return;
+    }
     
     if cli.godmode {
         print_godmode();
