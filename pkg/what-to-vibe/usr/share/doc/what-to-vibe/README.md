@@ -27,7 +27,7 @@ sudo pacman -S rust  # For Arch Linux
 # or visit https://rustup.rs/ for other systems
 
 # Clone and install
-git clone https://github.com/alkesala/what-to-vibe.git
+git clone https://github.com/yourusername/what-to-vibe.git
 cd what-to-vibe
 ./install.sh
 

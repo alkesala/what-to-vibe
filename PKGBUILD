@@ -1,14 +1,14 @@
-# Maintainer: Your Name <your.email@example.com>
+# Maintainer: alkesala <what-to-vibe@akesala.fi>
 pkgname=what-to-vibe
-pkgver=0.1.0
+pkgver=0.1.0.r1.73ef8c5
 pkgrel=1
 pkgdesc="A Rust CLI application that provides themed responses based on your current mood"
 arch=('x86_64')
-url="https://github.com/yourusername/what-to-vibe"
+url="https://github.com/alkesala/what-to-vibe"
 license=('MIT')
 depends=('gcc-libs')
 makedepends=('rust' 'cargo' 'git')
-source=("git+https://github.com/yourusername/what-to-vibe.git")
+source=("git+https://github.com/alkesala/what-to-vibe.git")
 sha256sums=('SKIP')
 
 pkgver() {
@@ -18,7 +18,7 @@ pkgver() {
 
 build() {
     cd "$pkgname"
-    cargo build --release --locked
+    cargo build --release
 }
 
 package() {
